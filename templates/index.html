@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="mr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>अभ्यास मित्र</title>
+<title>Study Buddy</title>
 <style>
   body{font-family:sans-serif;max-width:600px;margin:20px auto;padding:0 10px}
   #chat{border:1px solid #ccc;height:400px;overflow-y:auto;padding:10px;border-radius:8px}
@@ -15,12 +15,12 @@
 </style>
 </head>
 <body>
-<h2>📚 अभ्यास मित्र</h2>
+<h2>📚 Study Buddy</h2>
 <div id="chat"></div>
 <div id="row">
-  <input id="msg" placeholder="तुमचा प्रश्न लिहा..." />
-  <button onclick="send()" id="btn">पाठवा</button>
-  <button onclick="resetChat()">नवीन</button>
+  <input id="msg" placeholder="Type your question..." />
+  <button onclick="send()" id="btn">Send</button>
+  <button onclick="resetChat()">New chat</button>
 </div>
 <script>
 let cid = null;
@@ -40,7 +40,7 @@ async function send(){
   if(!text) return;
   add("user", text); msg.value = "";
   document.getElementById("btn").disabled = true;
-  const wait = add("bot", "विचार करत आहे...");
+  const wait = add("bot", "Thinking...");
   try{
     const res = await fetch("/chat", {
       method:"POST",
@@ -49,11 +49,11 @@ async function send(){
     });
     const data = await res.json();
     wait.remove();
-    if(!res.ok) add("err", data.error || "काहीतरी चुकले.");
+    if(!res.ok) add("err", data.error || "Something went wrong.");
     else { cid = data.conversation_id; add("bot", data.reply); }
   }catch(e){
     wait.remove();
-    add("err", "सर्व्हरशी कनेक्ट होता आले नाही.");
+    add("err", "Could not connect to the server.");
   }
   document.getElementById("btn").disabled = false;
   msg.focus();
